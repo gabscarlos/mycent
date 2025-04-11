@@ -5,6 +5,7 @@ import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
 
 interface ListaProps {
   transacoes: Transacao[];
+  selecionarTransacao?: (transacao: Transacao) => void;
 }
 
 export default function Lista(props: ListaProps) {
@@ -38,7 +39,7 @@ export default function Lista(props: ListaProps) {
         flex items-center gap-3 p-3 cursor-pointer
         ${indice % 2 === 0 ? "bg-zinc-900" : "bg-zinc-800"}
       `}
-        onClick={() => {}}
+        onClick={() => props.selecionarTransacao?.(transacao)}
       >
         {renderizarTipo(transacao)}
         <span className="w-full md:w-1/2">{transacao.descricao}</span>
