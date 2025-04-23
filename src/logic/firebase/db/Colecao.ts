@@ -12,7 +12,6 @@ import {
   orderBy,
   OrderByDirection,
   query,
-  QueryConstraint,
   setDoc,
   where,
   WhereFilterOp,
@@ -21,16 +20,19 @@ import {
 interface Filtro {
   atributo: string;
   operador: WhereFilterOp;
-  valor: any;
+  valor: unknown;
 }
 
 export default class Colecao {
-  async salvar(caminho: string, entidade: any, id?: string): Promise<any> {
+  async salvar<T extends { id?: string }>(
+    caminho: string,
+    entidade: T,
+    id?: string
+  ): Promise<T & { id: string }> {
     const db = getFirestore(app);
     const idFinal = id ?? entidade.id ?? Id.novo();
     const docRef = doc(db, caminho, idFinal);
     await setDoc(docRef, entidade);
-
     return {
       ...entidade,
       id: entidade.id ?? idFinal,
@@ -47,33 +49,37 @@ export default class Colecao {
     return true;
   }
 
-  async consultar(
+  async consultar<T extends object>(
     caminho: string,
     ordenarPor?: string,
     direcao?: OrderByDirection
-  ): Promise<any[]> {
+  ): Promise<(T & { id: string })[]> {
     const db = getFirestore(app);
     const colecaoRef = collection(db, caminho);
-    const filtro: QueryConstraint[] = [];
     const ordenacao = ordenarPor ? [orderBy(ordenarPor, direcao)] : [];
-    const consulta = query(colecaoRef, ...filtro, ...ordenacao);
+    const consulta = query(colecaoRef, ...ordenacao);
     const resultado = await getDocs(consulta);
-    return resultado.docs.map(this._converterDoFirebase) ?? [];
+    return resultado.docs
+      .map(this._converterDoFirebase<T>)
+      .filter((dado): dado is T & { id: string } => dado !== null);
   }
 
-  async consultarPorId(caminho: string, id: string): Promise<any> {
+  async consultarPorId<T extends object>(
+    caminho: string,
+    id: string
+  ): Promise<(T & { id: string }) | null> {
     const db = getFirestore(app);
     const docRef = doc(db, caminho, id);
     const resultado = await getDoc(docRef);
-    return this._converterDoFirebase(resultado);
+    return this._converterDoFirebase<T>(resultado);
   }
 
-  async consultarComFiltros(
+  async consultarComFiltros<T extends object>(
     caminho: string,
     filtros: Filtro[],
     ordenarPor?: string,
     direcao?: OrderByDirection
-  ): Promise<any[]> {
+  ): Promise<(T & { id: string })[]> {
     const db = getFirestore(app);
     const colecaoRef = collection(db, caminho);
 
@@ -83,16 +89,35 @@ export default class Colecao {
 
     const consulta = query(colecaoRef, ...filtrosWhere, ...ordenacao);
     const resultado = await getDocs(consulta);
-    return resultado.docs.map(this._converterDoFirebase) ?? [];
+    return resultado.docs
+      .map(this._converterDoFirebase<T>)
+      .filter((dado): dado is T & { id: string } => dado !== null);
   }
 
-  private _converterDoFirebase(snapshot: DocumentSnapshot<DocumentData>) {
+  private _converterDoFirebase<T extends object>(
+    snapshot: DocumentSnapshot<DocumentData>
+  ): (T & { id: string }) | null {
     if (!snapshot.exists()) return null;
-    const entidade: any = { ...snapshot.data(), id: snapshot.id };
-    if (!entidade) return entidade;
-    return Object.keys(entidade).reduce((obj: any, atributo: string) => {
-      const valor: any = entidade[atributo];
-      return { ...obj, [atributo]: valor.toDate?.() ?? valor };
-    }, {});
+
+    const dados = snapshot.data();
+    if (!dados) return null;
+
+    const entidade = Object.keys(dados).reduce<Record<string, unknown>>(
+      (obj, chave) => {
+        const valor = dados[chave];
+        const convertido =
+          typeof valor === "object" && valor !== null && "toDate" in valor
+            ? (valor as { toDate: () => unknown }).toDate()
+            : valor;
+
+        return { ...obj, [chave]: convertido };
+      },
+      {}
+    );
+
+    return {
+      ...entidade,
+      id: snapshot.id,
+    } as T & { id: string };
   }
 }

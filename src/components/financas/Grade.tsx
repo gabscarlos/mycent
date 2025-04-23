@@ -19,7 +19,7 @@ export default function Grade(props: GradeProps) {
           className={`absolute top-0 left-0 w-full h-full
           bg-gradient-to-r opacity-60
           ${
-            transacao.tipo === "RECEITA"
+            transacao.tipo === "receita"
               ? "from-teal-500 via-green-600 to-teal-700"
               : "from-pink-500 via-red-600 to-pink-700"
           }
@@ -30,13 +30,13 @@ export default function Grade(props: GradeProps) {
             {transacao.descricao}
           </span>
           <span className="z-10 font-light text-xs opacity-75">
-            {Data.diaMes.formatar(transacao.data)}
+            {transacao.data ? Data.diaMes.formatar(transacao.data) : "Sem data"}
           </span>
         </div>
         <span className="z-10 text-3xl font-black">
           {Dinheiro.formatar(transacao.valor)}
         </span>
-        {transacao.tipo === "RECEITA" ? (
+        {transacao.tipo === "receita" ? (
           <IconTrendingUp
             size={40}
             stroke={1}

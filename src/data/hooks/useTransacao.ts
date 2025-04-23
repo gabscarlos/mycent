@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import AutenticacaoContext from "../contexts/AutenticacaoContext";
 import Transacao from "@/logic/core/financas/Transacao";
 import servicos from "@/logic/core";
@@ -12,26 +12,29 @@ export default function useTransacao() {
   const [transacoes, setTransacoes] = useState<Transacao[]>([]);
   const [transacao, setTransacao] = useState<Transacao | null>(null);
 
+  const buscarTransacoes = useCallback(async () => {
+    if (!usuario) return;
+    const transacoes = await servicos.transacao.consultarPorMes(
+      usuario,
+      data ?? new Date()
+    );
+    setTransacoes(transacoes);
+  }, [usuario, data]);
+
   useEffect(() => {
     buscarTransacoes();
-  }, [data]);
-
-  async function buscarTransacoes() {
-    if (!usuario) return;
-    const transacoes = await servicos.transacao.consultarPorMes(usuario, data);
-    setTransacoes(transacoes);
-  }
+  }, [buscarTransacoes, data]);
 
   async function salvar(transacao: Transacao) {
     if (!usuario) return;
-    servicos.transacao.salvar(transacao, usuario);
+    await servicos.transacao.salvar(transacao, usuario);
     setTransacao(null);
     await buscarTransacoes();
   }
 
   async function excluir(transacao: Transacao) {
     if (!usuario) return;
-    servicos.transacao.excluir(transacao, usuario);
+    await servicos.transacao.excluir(transacao, usuario);
     setTransacao(null);
     await buscarTransacoes();
   }

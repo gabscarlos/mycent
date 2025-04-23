@@ -16,13 +16,13 @@ export default function Lista(props: ListaProps) {
                 flex justify-center items-center
                 h-8 w-8 sm:w-10 sm:h-10 p-1.5 rounded-full
                 ${
-                  transacao.tipo === "RECEITA"
+                  transacao.tipo === "receita"
                     ? "bg-emerald-500"
                     : "bg-rose-500"
                 }
             `}
       >
-        {transacao.tipo === "RECEITA" ? (
+        {transacao.tipo === "receita" ? (
           <IconTrendingUp />
         ) : (
           <IconTrendingDown />
@@ -44,7 +44,7 @@ export default function Lista(props: ListaProps) {
         {renderizarTipo(transacao)}
         <span className="w-full md:w-1/2">{transacao.descricao}</span>
         <span className="hidden md:inline flex-1">
-          {Data.diaMes.formatar(transacao.data)}
+          {transacao.data ? Data.diaMes.formatar(transacao.data) : "Sem data"}
         </span>
         <span>{Dinheiro.formatar(transacao.valor)}</span>
       </div>

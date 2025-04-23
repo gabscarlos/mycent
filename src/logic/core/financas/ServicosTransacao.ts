@@ -1,7 +1,7 @@
 import Colecao from "@/logic/firebase/db/Colecao";
 import Transacao from "./Transacao";
 import Usuario from "../usuario/Usuario";
-import Data from "@/logic/utils/Data";
+import { Timestamp } from "firebase/firestore";
 
 export default class ServicosTransacao {
   private _colecao = new Colecao();
@@ -25,7 +25,7 @@ export default class ServicosTransacao {
     return await this._colecao.consultar(caminho, "data", "desc");
   }
 
-  async consultarPorMes(usuario: Usuario, data: Date) {
+  async consultarPorMes(usuario: Usuario, data: Date): Promise<Transacao[]> {
     const primeiro = new Date(data.getFullYear(), data.getMonth(), 1);
     const ultimo = new Date(
       data.getFullYear(),
@@ -37,9 +37,21 @@ export default class ServicosTransacao {
     );
 
     const caminho = `financas/${usuario.email}/transacoes`;
-    return await this._colecao.consultarComFiltros(caminho, [
+
+    const docs = await this._colecao.consultarComFiltros<Transacao>(caminho, [
       { atributo: "data", operador: ">=", valor: primeiro },
       { atributo: "data", operador: "<=", valor: ultimo },
     ]);
+
+    return docs.map((doc) => ({
+      ...doc,
+      valor: Number(doc.valor ?? 0),
+      data:
+        doc.data instanceof Timestamp
+          ? doc.data.toDate()
+          : doc.data instanceof Date
+          ? doc.data
+          : new Date(doc.data ?? ""), // fallback se vier nulo/undefined
+    }));
   }
 }

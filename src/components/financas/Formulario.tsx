@@ -28,16 +28,23 @@ export default function Formulario(props: FormularioProps) {
         <TextInput
           label="Valor"
           value={Dinheiro.formatar(dados.valor)}
-          onChange={alterarAtributo("valor", Dinheiro.desformatar)}
+          onChange={alterarAtributo("valor", (valor) =>
+            Dinheiro.desformatar(String(valor))
+          )}
         />
         <DatePickerInput
           label="Data"
           value={dados.data}
           locale="pt-BR"
           valueFormat="DD/MM/YYYY"
-          onChange={alterarAtributo("data")}
+          onChange={alterarAtributo("data", (valor) => valor ?? new Date())}
         />
-        <RadioGroup value={dados.tipo} onChange={alterarAtributo("tipo")}>
+        <RadioGroup
+          value={dados.tipo}
+          onChange={(value: string) =>
+            alterarAtributo("tipo")(value as TipoTransacao)
+          }
+        >
           <Group>
             <Radio value={TipoTransacao.RECEITA} label="Receita" />
             <Radio value={TipoTransacao.DESPESA} label="Despesa" />

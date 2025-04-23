@@ -42,7 +42,7 @@ export default function Formularios() {
       >
         <TextInput
           value={Cpf.formatar(dados.cpf ?? "")}
-          onChange={alterarAtributo("cpf", Cpf.desformatar)}
+          onChange={alterarAtributo("cpf", (v) => Cpf.desformatar(v ?? ""))}
         />
       </MiniFormulario>
       <MiniFormulario
@@ -54,7 +54,9 @@ export default function Formularios() {
       >
         <TextInput
           value={Telefone.formatar(dados.telefone ?? "")}
-          onChange={alterarAtributo("telefone", Telefone.desformatar)}
+          onChange={alterarAtributo("telefone", (v) =>
+            Telefone.desformatar(v ?? "")
+          )}
         />
       </MiniFormulario>
     </div>

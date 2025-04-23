@@ -4,8 +4,9 @@ export default interface Transacao {
   id?: string;
   descricao: string;
   valor: number;
-  data: Date;
+  data: Date | null;
   tipo: TipoTransacao;
+  [key: string]: unknown;
 }
 
 export const transacaoVazia: Transacao = {

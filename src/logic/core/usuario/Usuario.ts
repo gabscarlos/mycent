@@ -5,4 +5,5 @@ export default interface Usuario {
   imagemUrl: string | null;
   cpf?: string;
   telefone?: string;
+  [chave: string]: unknown;
 }
