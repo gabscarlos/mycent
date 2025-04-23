@@ -5,24 +5,63 @@ import Lista from "./Lista";
 import { transacaoVazia } from "@/logic/core/financas/Transacao";
 import Formulario from "./Formulario";
 import NaoEncontrado from "../template/NaoEncontrado";
-import { Button } from "@mantine/core";
-import { IconPlus } from "@tabler/icons-react";
-import useTransacao from "@/data/hooks/useTransacao";
+import { Button, SegmentedControl } from "@mantine/core";
+import { IconLayoutGrid, IconList, IconPlus } from "@tabler/icons-react";
+import useTransacao, { TipoExibicao } from "@/data/hooks/useTransacao";
+import CampoMesAno from "../template/CampoMesAno";
+import Grade from "./Grade";
 
 export default function Financas() {
-  const { transacoes, transacao, salvar, excluir, selecionar } = useTransacao();
+  const {
+    data,
+    alterarData,
+    alterarExibicao,
+    transacoes,
+    transacao,
+    salvar,
+    excluir,
+    selecionar,
+    tipoExibicao,
+  } = useTransacao();
+
+  function renderizarControles() {
+    return (
+      <div className="flex justify-between">
+        <CampoMesAno data={data} dataMudou={alterarData} />
+        <div className="flex gap-5">
+          <Button
+            className="bg-blue-500"
+            leftSection={<IconPlus />}
+            onClick={() => selecionar(transacaoVazia)}
+          >
+            Nova transação
+          </Button>
+          <SegmentedControl
+            data={[
+              { label: <IconList />, value: "lista" },
+              { label: <IconLayoutGrid />, value: "grade" },
+            ]}
+            onChange={(tipo) => alterarExibicao(tipo as TipoExibicao)}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  function renderizarTransacoes() {
+    const props = { transacoes, selecionarTransacao: selecionar };
+    return tipoExibicao === "grade" ? (
+      <Grade {...props} />
+    ) : (
+      <Lista {...props} />
+    );
+  }
 
   return (
     <Pagina>
       <Cabecalho />
       <Conteudo className="gap-5">
-        <Button
-          className="bg-blue-500"
-          leftSection={<IconPlus />}
-          onClick={() => selecionar(transacaoVazia)}
-        >
-          Nova transação
-        </Button>
+        {renderizarControles()}
         {transacao ? (
           <Formulario
             transacao={transacao}
@@ -31,7 +70,7 @@ export default function Financas() {
             excluir={excluir}
           />
         ) : transacoes.length ? (
-          <Lista transacoes={transacoes} selecionarTransacao={selecionar} />
+          renderizarTransacoes()
         ) : (
           <NaoEncontrado>Nenhuma transação encontrada</NaoEncontrado>
         )}

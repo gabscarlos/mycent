@@ -1,10 +1,10 @@
 import AutenticacaoContext from "@/data/contexts/AutenticacaoContext";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { ReactNode, useContext } from "react";
 import Carregando from "../template/Carregando";
 
 interface ForcarAutenticacaoProps {
-  children: any;
+  children: ReactNode;
 }
 
 export default function ForcarAutenticacao(props: ForcarAutenticacaoProps) {

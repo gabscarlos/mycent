@@ -1,5 +1,7 @@
+import { ReactNode } from "react";
+
 interface AreaProps {
-  children: any;
+  children: ReactNode;
   className?: string;
   id?: string;
 }

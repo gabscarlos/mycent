@@ -87,6 +87,7 @@ export default class Colecao {
   }
 
   private _converterDoFirebase(snapshot: DocumentSnapshot<DocumentData>) {
+    if (!snapshot.exists()) return null;
     const entidade: any = { ...snapshot.data(), id: snapshot.id };
     if (!entidade) return entidade;
     return Object.keys(entidade).reduce((obj: any, atributo: string) => {

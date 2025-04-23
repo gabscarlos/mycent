@@ -1,7 +1,8 @@
+import { StaticImageData } from "next/image";
 import ImagemResponsiva from "../comum/ImagemResponsiva";
 
 export interface VantagemProps {
-  imagem: any;
+  imagem: string | StaticImageData;
   titulo: string;
   subtitulo?: string;
   inverter?: boolean;

@@ -1,5 +1,4 @@
 import Area from "../comum/Area";
-import Conteudo from "../comum/Area";
 import Depoimento from "./Depoimento";
 
 export default function Depoimentos() {

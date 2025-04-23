@@ -1,7 +1,7 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 interface ImagemResponsivaProps {
-  imagem: any;
+  imagem: string | StaticImageData;
   className?: string;
 }
 

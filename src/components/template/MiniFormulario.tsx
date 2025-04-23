@@ -1,9 +1,10 @@
 import { Button } from "@mantine/core";
+import { ReactNode } from "react";
 
 interface MiniFormularioProps {
   titulo: string;
   descricao: string;
-  children: any;
+  children: ReactNode;
   msgRodape: string;
   salvar: () => void;
   podeSalvar: boolean;

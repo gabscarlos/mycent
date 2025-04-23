@@ -1,8 +1,9 @@
+import { ReactNode } from "react";
 import ForcarAutenticacao from "../autenticacao/ForcarAutenticacao";
 
 interface PaginaProps {
   externa?: boolean;
-  children: any;
+  children: ReactNode;
   className?: string;
 }
 

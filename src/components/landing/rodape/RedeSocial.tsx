@@ -1,8 +1,14 @@
 import Link from "next/link";
-import React from "react";
+import React, { ReactElement } from "react";
+
+interface IconeProps {
+  size?: number;
+  strokeWidth?: number;
+  className?: string;
+}
 
 interface RedeSocialProps {
-  icone: any;
+  icone: ReactElement<IconeProps>;
   url: string;
 }
 

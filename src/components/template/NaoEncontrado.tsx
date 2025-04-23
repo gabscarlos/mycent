@@ -1,7 +1,8 @@
 import { IconCircleX } from "@tabler/icons-react";
+import { ReactNode } from "react";
 
 interface NaoEncontradoProps {
-  children: any;
+  children: ReactNode;
 }
 
 export default function NaoEncontrado(props: NaoEncontradoProps) {

@@ -1,7 +1,13 @@
-import React from "react";
+import React, { ReactElement } from "react";
+
+interface IconeProps {
+  size?: number;
+  stroke?: number;
+  className?: string;
+}
 
 interface TituloPaginaProps {
-  icone?: any;
+  icone?: ReactElement<IconeProps>;
   principal: string;
   secundario?: string;
   className?: string;

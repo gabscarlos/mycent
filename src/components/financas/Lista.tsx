@@ -44,7 +44,7 @@ export default function Lista(props: ListaProps) {
         {renderizarTipo(transacao)}
         <span className="w-full md:w-1/2">{transacao.descricao}</span>
         <span className="hidden md:inline flex-1">
-          {Data.ddmmyy.formatar(transacao.data)}
+          {Data.diaMes.formatar(transacao.data)}
         </span>
         <span>{Dinheiro.formatar(transacao.valor)}</span>
       </div>
