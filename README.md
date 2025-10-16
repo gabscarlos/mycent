@@ -49,7 +49,7 @@ Mais do que um simples controle de despesas, o MyCent é um **assistente finance
 
 ## 🚀 Explore agora
 
-👉 **[Acesse o MyCent](https://gabscarlos.github.io/mycent/)** *(ou insira o link oficial de deploy se disponível)*
+👉 **[Acesse o MyCent](https://mycent.vercel.app/)** 
 
 ---
 
