@@ -1,7 +1,7 @@
 # 💰 MyCent
 
 <div align="center">
-  <img src="https://github.com/gabscarlos/mycent/raw/main/.gitassets/capa.png" width="350" />
+  <img src="https://github.com/gabscarlos/mycent/raw/main/.gitassets/1.png" width="350" />
 </div>
 
 <div align="center">
@@ -37,12 +37,10 @@ Mais do que um simples controle de despesas, o MyCent é um **assistente finance
 
 ---
 
-<div align="center">
-  <img src="https://github.com/gabscarlos/mycent/raw/main/.gitassets/1.jpg" width="80%" />
+<div align="center">  
+  <img src="https://github.com/gabscarlos/mycent/raw/main/.gitassets/2.png" width="80%" />
   <br><br>
-  <img src="https://github.com/gabscarlos/mycent/raw/main/.gitassets/2.jpg" width="80%" />
-  <br><br>
-  <img src="https://github.com/gabscarlos/mycent/raw/main/.gitassets/3.jpg" width="80%" />
+  <img src="https://github.com/gabscarlos/mycent/raw/main/.gitassets/3.png" width="80%" />
 </div>
 
 ---
