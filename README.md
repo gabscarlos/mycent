@@ -1,7 +1,7 @@
 # 💰 MyCent
 
 <div align="center">
-  <img src="https://github.com/gabscarlos/mycent/raw/main/.gitassets/1.png" width="40%" />
+  <img src="https://github.com/gabscarlos/mycent/raw/main/.gitassets/1.png" width="80%" />
 </div>
 
 <div align="center">
